@@ -21,8 +21,12 @@ module.exports = React.createClass({
     var email = person.email.substr(0,3)+'???????@?????.???'
     var response = '' + (parseInt(Math.random() * 50 ) + 50)+'%';
     var dobJs = new Date(person.dob * 1000);
-    var dob = (dobJs.getMonth()+1)+'/'+dobJs.getDay()+'/'+dobJs.getYear();
     var age = calculateAge(dobJs);
+    if(age < 18){
+      dobJs.setFullYear(dobJs.getFullYear()-15);
+      age = calculateAge(dobJs);
+    }
+    var dob = (dobJs.getMonth()+1)+'/'+dobJs.getDay()+'/'+dobJs.getYear();
 
     // console.log('p,l',person,location);
     return (
