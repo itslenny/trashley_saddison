@@ -6,7 +6,7 @@ Find local men and women in your area with [Trashley Saddison](http://trashleysa
 
 * [ip api](http://ip-api.com) - IP geolocation
 * [randomuser.me](https://randomuser.me/) - Generate random people to populate the site
-* [ICNDb](icndb.com) - Chuck Norris jokes used for the "Interesting Facts" in the dating profiles
+* [ICNDb](http://icndb.com) - Chuck Norris jokes used for the "Interesting Facts" in the dating profiles
 
 ####Build using
 
