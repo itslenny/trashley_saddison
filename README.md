@@ -6,20 +6,20 @@ Find local men and women in your area with [Trashley Saddison](http://trashleysa
 
 * [ip api](http://ip-api.com) - IP geolocation
 * [randomuser.me](https://randomuser.me/) - Generate random people to populate the site
-* [ICNDb](icndb.com) - Chuck Norris quotes used for the "Interesting Facts" in the dating profiles
+* [ICNDb](icndb.com) - Chuck Norris jokes used for the "Interesting Facts" in the dating profiles
 
 ####Build using
 
 * Backend
-    * [python](https://www.python.org/)
-    * [flask](http://flask.pocoo.org/)
+    * [Python](https://www.python.org/)
+    * [Flask](http://flask.pocoo.org/)
 * Frontend
-    * [react.js](http://facebook.github.io/react/)
-    * and some plain ol' vanilla JS
+    * [React.js](http://facebook.github.io/react/)
+    * Some plain ol' vanilla JS
 * Static asset workflow
-    * [nodejs](https://nodejs.org/)
-    * [gulpjs](http://gulpjs.com/)
-    * [browserify](http://browserify.org/)
+    * [Nodejs](https://nodejs.org/)
+    * [Gulpjs](http://gulpjs.com/)
+    * [Browserify](http://browserify.org/)
 
 
 ####Tested on
