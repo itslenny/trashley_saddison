@@ -1,5 +1,6 @@
 import json
 import requests
+import os
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -42,4 +43,6 @@ def getQuote(fname,lname):
   url = 'http://api.icndb.com/jokes/random?firstName='+fname+'&lastName='+lname
   return requests.get(url).text
 
-app.run(debug=True)
+port = int(os.environ.get("PORT", 5000))
+app.run(host='0.0.0.0', port=port)
+# app.run(debug=True)
