@@ -7,9 +7,14 @@ var SRC_DIR = './assets';
 var DEST_DIR = './static';
 
 gulp.task('browserify', function(){
-  return browserify(SRC_DIR + '/js/main.js')
+  return browserify(SRC_DIR + '/js/main.js',{debug:true})
     .transform('reactify')
     .bundle()
+    .on('error',function(err){
+      console.log('error',err.stack);
+      console.log('-- THERE IS AN ERROR SEE ABOVE --');
+      this.emit('end');
+    })
     .pipe(source('main.js'))
     .pipe(gulp.dest(DEST_DIR + '/js'));
 });
