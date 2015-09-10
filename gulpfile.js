@@ -1,3 +1,5 @@
+var child = require('child_process');
+var fs = require('fs');
 var gulp = require('gulp');
 var browserify = require('browserify');
 var reactify = require('reactify');
@@ -30,7 +32,17 @@ gulp.task('watch',function(){
   return gulp.watch(SRC_DIR + '/**/*.*', ['build']);
 });
 
-gulp.task('default',['build','watch']);
+gulp.task('server', function() {
+  var server = child.spawn('python', ['app.py']);
+  server.stdout.pipe(process.stdout);
+  server.stderr.pipe(process.stderr);
+  //uncomment to write output to log file
+  //var log = fs.createWriteStream('server.log', {flags: 'a'});
+  //server.stdout.pipe(log);
+  //server.stderr.pipe(log);
+});
+
+gulp.task('default',['build','server','watch']);
 
 
 

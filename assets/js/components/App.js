@@ -1,36 +1,44 @@
 var React = require('react');
 var ResultList = require('./ResultList');
 var ResultDetails = require('./ResultDetails');
+var helpers = require('../helpers');
 
 module.exports = React.createClass({
   getInitialState: function(){
-    return {activePerson:false,quote:''};
+    return {activePerson:null,quote:'',modalOffset:0};
+  },
+  scroll: function(e){
+    var self = this;
+    var thisLoad = new Date();
+    if(thisLoad - this.lastLoad < 500) return;
+    if(window.pageYOffset + helpers.dom.getWindowHeight() + 20 > helpers.dom.getDocumentHeight()){
+      this.lastLoad = new Date();
+      self.refs.womens.loadMatches(true);
+      self.refs.mens.loadMatches(true);
+    }
   },
   componentDidMount: function(){
-    var self = this;
-    var lastLoad = new Date();
-    window.addEventListener('scroll',function(e){
-      var thisLoad = new Date();
-      if(thisLoad - lastLoad < 500) return;
-      if(window.pageYOffset + getWindowHeight() + 50 > getDocHeight()){
-        lastLoad = new Date();
-        self.refs.womens.loadMatches(true);
-        self.refs.mens.loadMatches(true);
-      }
-    });
+    this.lastLoad = new Date();
+    window.addEventListener('scroll', this.scroll);
+  },
+  componentWillUnmount: function(){
+    window.removeEventListener('scroll', this.scroll);
   },
   hidePerson: function() {
-    this.setState({activePerson:false})
+    this.setState({activePerson:null})
   },
   showPerson: function(person, location){
-    this.setState({activePerson:{person:person,location:location}});
+    this.setState({
+      //move the modal to the scroll position
+      modalOffset: window.pageYOffset,
+      activePerson:{person:person,location:location}
+    });
     this.loadQuote(person);
   },
   loadQuote: function(person) {
     var self = this;
-
-    var ajax = new XMLHttpRequest();
-    ajax.addEventListener('load',function(){
+    var url = '/api/quote?f=' + person.name.first +'&l=' + person.name.last;
+    helpers.ajax.get(url, function(){
       try {
         var data = JSON.parse(this.responseText);
         self.setState({quote:data.value.joke});
@@ -38,9 +46,8 @@ module.exports = React.createClass({
         console.log('error',e);
         self.setState({quote:''});
       }
-    });
-    ajax.open('GET','/api/quote?f=' + person.name.first +'&l=' + person.name.last, true);
-    ajax.send();
+    })
+
   },
   refresh: function(e){
     this.refs[e.target.dataset.which].loadMatches();
@@ -49,7 +56,7 @@ module.exports = React.createClass({
     return (
       <div className="container">
         <h1>Trashley Saddison</h1>
-        <ResultDetails quote={this.state.quote} data={this.state.activePerson} dismiss={this.hidePerson} />
+        <ResultDetails offsetTop={this.state.modalOffset} quote={this.state.quote} data={this.state.activePerson} dismiss={this.hidePerson} />
         <div className="row">
           <div className="col-sm-6">
             <h3>Find women in your area <button data-which="womens" onClick={this.refresh} className="btn btn-success btn-xs glyphicon glyphicon-refresh"></button></h3>
@@ -64,22 +71,3 @@ module.exports = React.createClass({
     )
   }
 });
-
-
-
-function getDocHeight() {
-  var D = document;
-  return Math.max(
-    D.body.scrollHeight, D.documentElement.scrollHeight,
-    D.body.offsetHeight, D.documentElement.offsetHeight,
-    D.body.clientHeight, D.documentElement.clientHeight
-  );
-}
-
-function getWindowHeight() {
-  var w=window,
-  d=document,
-  e=d.documentElement,
-  g=d.getElementsByTagName('body')[0];
-  return w.innerHeight||e.clientHeight||g.clientHeight;
-}

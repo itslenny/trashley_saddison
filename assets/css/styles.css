@@ -1,8 +1,6 @@
 
-
-@media only screen and (max-width: 960px) {
-  .modal{
-    position: absolute;
-    bottom: auto;
-  }
+/* scroll for small screens */
+.modal{
+  position: absolute;
+  bottom: auto;
 }

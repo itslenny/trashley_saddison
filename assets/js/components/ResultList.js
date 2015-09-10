@@ -1,10 +1,10 @@
 var React = require('react');
 var ResultItem = require('./ResultItem');
-
+var helpers = require('../helpers');
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return {results:{},loading:false}
+    return {results:{}, loading:false}
   },
   componentWillMount: function() {
     this.loadMatches();
@@ -13,12 +13,12 @@ module.exports = React.createClass({
     this.setState({loading:true});
     var self = this;
     var gender = this.props.gender;
-    var ajax = new XMLHttpRequest();
-    ajax.addEventListener('load',function(){
+    helpers.ajax.get('/api/matches?want=' + gender, function(){
       try {
         var data = JSON.parse(this.responseText);
         if(append && data.people){
-          data.people.results = self.state.results.people.results.concat(data.people.results);
+          var currentResults = self.state.results.people.results;
+          data.people.results = currentResults.concat(data.people.results);
         }
         self.setState({results:data,loading:false});
       } catch(e) {
@@ -26,13 +26,10 @@ module.exports = React.createClass({
         self.setState({results:{}});
       }
     });
-    ajax.open('GET','/api/matches?want=' + gender, true);
-    ajax.send();
   },
-
   render: function(){
-    var location = this.state.results.location;
     var self = this;
+    var location = this.state.results.location;
     if(this.state.results.people){
       var people = this.state.results.people.results.map(function(person, idx){
         return <ResultItem onSelect={self.props.onSelect} key={idx} person={person} location={location} />

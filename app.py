@@ -31,7 +31,7 @@ def quote():
 
 
 def getPeople(gender):
-  url = 'http://api.randomuser.me/?results=20&gender='+gender+'&nat=us'
+  url = 'http://api.randomuser.me/?results=10&gender='+gender+'&nat=us'
   return requests.get(url).text
 
 def getLocation(ip):
@@ -44,5 +44,5 @@ def getQuote(fname,lname):
   return requests.get(url).text
 
 port = int(os.environ.get("PORT", 5000))
-app.run(host='0.0.0.0', port=port)
+app.run(host='0.0.0.0', port=port, debug=True)
 # app.run(debug=True)
