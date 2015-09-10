@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"gulp",
+    "start":"./node_modules/.bin/gulp",
     "preinstall":"pip install -r ./requirements.txt",
-    "postinstall":"gulp build"
+    "postinstall":"./node_modules/.bin/gulp build"
   },
   "repository": {
     "type": "git",
