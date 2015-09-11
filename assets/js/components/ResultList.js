@@ -16,6 +16,13 @@ module.exports = React.createClass({
     helpers.ajax.get('/api/matches?want=' + gender, function(){
       try {
         var data = JSON.parse(this.responseText);
+        var pics = {};
+        data.people.results = data.people.results.filter(function(person){
+          if(pics[person.user.picture.medium]) return false;
+          pics[person.user.picture.medium] = true;
+          return true;
+        });
+        console.log('pics',pics);
         if(append && data.people){
           var currentResults = self.state.results.people.results;
           data.people.results = currentResults.concat(data.people.results);

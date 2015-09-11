@@ -41,7 +41,14 @@ module.exports = React.createClass({
     helpers.ajax.get(url, function(){
       try {
         var data = JSON.parse(this.responseText);
-        self.setState({quote:data.value.joke});
+        var joke = data.value.joke;
+        joke = joke.replace(/&quot;/ig,'"');
+        if(person.gender == 'female'){
+          joke = joke.replace(/\bhim\b/ig,'her');
+          joke = joke.replace(/\bhe\b/ig,'she');
+          joke = joke.replace(/\bhis\b/ig,'her');
+        }
+        self.setState({quote:joke});
       } catch(e) {
         console.log('error',e);
         self.setState({quote:''});

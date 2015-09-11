@@ -31,7 +31,7 @@ def quote():
 
 
 def getPeople(gender):
-  url = 'http://api.randomuser.me/?results=10&gender='+gender+'&nat=us'
+  url = 'http://api.randomuser.me/?results=12&gender='+gender+'&nat=us'
   return requests.get(url).text
 
 def getLocation(ip):
